@@ -640,8 +640,8 @@ export default class MenuBuilder {
                   );
                 }
               }
-            ]
-          }, */
+            ]  */
+          },
           {
             label: 'Merchants',
             /* submenu: [
