@@ -1,0 +1,72 @@
+name: Build
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: ${{ matrix.os }} Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Setup MSBuild.exe
+        if: matrix.os == 'windows-latest'
+        uses: warrenbuckley/Setup-MSBuild@v1
+
+      - name: Setup Cache
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ matrix.os }}-deps
+
+      - name: Dependencies
+        run: | 
+            yarn 
+            cd node_modules/turtlecoin-utils
+            echo '{"coinUnitPlaces": 6,  "addressPrefix": 78,  "keccakIterations": 1,  "defaultNetworkFee": 10000,  "mmMiningBlockVersion": 2}' > config.json
+            cd ../../ 
+            cd node_modules/turtlecoin-wallet-backend/dist/lib
+            echo '"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const MixinLimits_1=require("./MixinLimits"),version=require("../../package.json").version;class Config{constructor(){this.decimalPlaces=6,this.addressPrefix=78,this.requestTimeout=6e4,this.blockTargetTime=120,this.syncThreadInterval=10,this.daemonUpdateInterval=3e4,this.lockedTransactionsCheckInterval=3e4,this.blocksPerTick=1,this.ticker="BTN",this.scanCoinbaseTransactions=!1,this.minimumFee=1e4,this.mixinLimits=new MixinLimits_1.MixinLimits([new MixinLimits_1.MixinLimit(44e4,0,100,3),new MixinLimits_1.MixinLimit(62e4,3),new MixinLimits_1.MixinLimit(8e5,3)],3),this.standardAddressLength=95,this.integratedAddressLength=183,this.underivePublicKey=void 0,this.derivePublicKey=void 0,this.deriveSecretKey=void 0,this.generateKeyImage=void 0,this.secretKeyToPublicKey=void 0,this.cnFastHash=void 0,this.generateRingSignatures=void 0,this.generateKeyDerivation=void 0,this.blockStoreMemoryLimit=52428800,this.blocksPerDaemonRequest=100,this.maxLastFetchedBlockInterval=180,this.maxLastUpdatedNetworkHeightInterval=180,this.maxLastUpdatedLocalHeightInterval=180,this.customUserAgentString=`${this.ticker.toLowerCase()}-wallet-backend-${version}`,this.customRequestOptions={}}}function MergeConfig(e,i=new Config){const t=Object.create(Object.getPrototypeOf(i),Object.getOwnPropertyDescriptors(i));if(!e)return t;for(const[i,s]of Object.entries(e))t[i]=s;return t}exports.Config=Config,exports.MergeConfig=MergeConfig;' > config.js
+            cd ../../../../ 
+
+      - name: Build
+        run: yarn package
+
+      - name: Prepare to Deploy
+        id: before_deploy
+        shell: bash
+        run: |
+          rm -rf ./release/*.blockmap
+          rm -rf ./release/*.zip
+          rm -rf ./release/*-unpacked
+          rm -rf ./release/*.yml
+          rm -rf ./release/mac
+          export NAME=$(ls release/BitcoinNova*)
+          echo ::set-output name=file_name::${NAME:8}
+      - name: Store Build Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: ./release
+
+      - name: Upload to GH Release
+        if: github.event_name == 'release' && github.repository == 'BitcoinNova/bitcoinnova-sonic-wallet'
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./release/${{ steps.before_deploy.outputs.file_name }}
+          asset_name: ${{ steps.before_deploy.outputs.file_name }}
+          asset_content_type: application/octet-stream
