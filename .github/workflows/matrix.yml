@@ -57,11 +57,11 @@ jobs:
           rm -rf ./release/mac
           rm -rf ./release/*.yml
 
-          export FILE_NAME=(release/BitcoinNova*)
+          export FILE_NAME=(release/Bitcoin*)
           echo ::set-output name=file_name::${FILE_NAME:8}
 
           if [ "$RUNNER_OS" == "Linux" ]; then
-            export DEB_NAME=(release/bitcoinnova*)
+            export DEB_NAME=(release/bitcoin*)
             echo ::set-output name=deb_name::${DEB_NAME:8}
           fi
 
