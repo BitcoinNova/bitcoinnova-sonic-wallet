@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Bitcoin Nova Developers
+// Copyright (C) 2023 Bitcoin Nova Developers
 //
 // Please see the included LICENSE file for more information.
-export default 'test-file-stub';
+export default "test-file-stub";
