@@ -605,8 +605,7 @@ export default class Home extends Component<Props, State> {
                                             className={`${textColor} title has-text-centered`}
                                         >
                                             <i className="fas fa-robot" />
-                                            &nbsp;&nbsp;Welcome to Zent Cash
-                                            Wallet!
+                                            &nbsp;&nbsp;Welcome to Bitcoin Nova Sonic Wallet!
                                         </p>
                                         <br />
                                         <p
