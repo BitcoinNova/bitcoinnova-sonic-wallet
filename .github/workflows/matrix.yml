@@ -36,7 +36,7 @@ jobs:
 
       - name: Dependencies
         run: | 
-            yarn 
+            yarn install --ignore-optional
 
       - name: Build
         run: yarn package
