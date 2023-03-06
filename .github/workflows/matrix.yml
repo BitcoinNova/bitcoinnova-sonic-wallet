@@ -55,7 +55,7 @@ jobs:
           echo ::set-output name=file_name::${FILE_NAME:8}
 
           if [ "$RUNNER_OS" == "Linux" ]; then
-            export DEB_NAME=(release/BitcoinNova*)
+            export DEB_NAME=(release/bitcoinnova*)
             echo ::set-output name=deb_name::${DEB_NAME:8}
           fi
 
