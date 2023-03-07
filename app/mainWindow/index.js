@@ -158,7 +158,7 @@ ipcRenderer.on("fromMain", (event: Electron.IpcRendererEvent, message: any) => {
             darkMode = data.config.darkMode;
             // eslint-disable-next-line prefer-destructuring
             textColor = uiType(data.config.darkMode).textColor;
-            configManager = new BitcoinNOvaConfig(data.config, data.configPath);
+            configManager = new BitcoinNovaConfig(data.config, data.configPath);
             reInitWallet(data.config.walletFile);
             ipcRenderer.send("frontReady");
             break;
