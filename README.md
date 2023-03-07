@@ -8,13 +8,9 @@
 
 ### Master Build Status
 
-![Master Build Status](https://github.com/BitcoinNova/bitcoinnova-sonic-wallet/workflows/Build%20Bitcoin%20Nova%20Wallet/badge.svg?branch=main)
+[![Build Bitcoin Nova Wallet](https://github.com/BitcoinNova/bitcoinnova-sonic-wallet/actions/workflows/matrix.yml/badge.svg?branch=master)](https://github.com/BitcoinNova/bitcoinnova-sonic-wallet/actions/workflows/matrix.yml)
 
-### Development Build Status
-
-![Development Build Status](https://github.com/BitcoinNova/bitcoinnova-sonic-wallet/workflows/Build%20Bitcoin%20Nova%20Wallet/badge.svg?branch=dev)
-
-<img src="https://raw.githubusercontent.com/BitcoinNova/bitcoinnova-sonic-wallet/dev/screenshots/screenshot.png">
+<img src="https://raw.githubusercontent.com/BitcoinNova/bitcoinnova-sonic-wallet/master/screenshots/screenshot.png">
 <p>
   Bitcoin Nova Sonic Wallet is a Bitcoin Nova wallet that uses <a href="http://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, and <a href="https://github.com/BitcoinNova/bitcoinnova-wallet-backend-js">BitcoinNova-Wallet-Backend-JS</a>.
 </p>
