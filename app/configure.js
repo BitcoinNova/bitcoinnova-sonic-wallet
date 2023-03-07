@@ -91,7 +91,7 @@ const configure = {
     /**
      * Fee per byte height
      */
-    feePerByteHeight: 2200000,
+    feePerByteHeight: 1300000,
 
     /**
      * Mapping of height to mixin maximum and mixin minimum
